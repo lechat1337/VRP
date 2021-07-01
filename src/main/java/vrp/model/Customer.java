@@ -13,11 +13,9 @@ public class Customer implements Task{
     public int id;
     public long demand;
     public Location location;
-    @InverseRelationShadowVariable(sourceVariableName = "previousTask")
     public Customer nextTask;
-    @PlanningVariable(graphType = PlanningVariableGraphType.CHAINED, valueRangeProviderRefs = {"customerRange", "vehicleRange"})
+
     public Task previousTask;
-    @AnchorShadowVariable(sourceVariableName = "previousTask")
     public Vehicle vehicle;
 
     public Customer(){}
@@ -39,18 +37,23 @@ public class Customer implements Task{
     }
 
     @Override
+    @AnchorShadowVariable(sourceVariableName = "previousTask")
     public Vehicle getVehicle() {
-        return previousTask.getVehicle();
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     @Override
     public Customer getNextTask() {
-        return this.nextTask;
+        return nextTask;
     }
 
     @Override
     public void setNextTask(Customer nextCustomer) {
-        this.nextTask = nextCustomer;
+        nextTask = nextCustomer;
     }
 
     public int getId() {
@@ -69,6 +72,8 @@ public class Customer implements Task{
         this.demand = demand;
     }
 
+    @PlanningVariable(graphType = PlanningVariableGraphType.CHAINED,
+            valueRangeProviderRefs = {"customerRange", "vehicleRange"})
     public Task getPreviousTask() {
         return previousTask;
     }
@@ -83,5 +88,11 @@ public class Customer implements Task{
 
     public BigDecimal distToPrevious() {
         return Matrix.getDist(this.id, this.previousTask.getLocationId());
+    }
+
+    public String toString(){
+        StringBuilder res = new StringBuilder();
+        res.append(id).append(" x:").append(location.toString());
+        return res.toString();
     }
 }

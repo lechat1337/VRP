@@ -3,8 +3,7 @@ package vrp.exec;
 import org.optaplanner.persistence.common.api.domain.solution.SolutionFileIO;
 import vrp.model.*;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +49,28 @@ public class VrpSolutionFileIO implements SolutionFileIO<VrpSolution> {
 
     @Override
     public void write(VrpSolution vrpSolution, File outputSolutionFile) {
-
+        StringBuilder solutionStr = new StringBuilder();
+        for (Vehicle v:
+                vrpSolution.getVehicleList()) {
+            if(v.nextTask != null){
+                Customer c = v.nextTask;
+                solutionStr.append(v.id).append("\n");
+                while (c != null){
+                    solutionStr.append(c.id).append("--->");
+                    c = c.nextTask;
+                }
+                solutionStr.append("\n");
+            }else {
+                solutionStr.append(v.toString()).append(" is not used\n");
+            }
+        }
+        BufferedWriter writer = null;
+        try {
+            writer = new BufferedWriter(new FileWriter(outputSolutionFile.getAbsolutePath(), false));
+            writer.write(solutionStr.toString());
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

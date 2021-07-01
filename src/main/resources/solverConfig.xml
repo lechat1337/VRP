@@ -6,7 +6,7 @@
 
     <solutionClass>vrp.model.VrpSolution</solutionClass>
     <entityClass>vrp.model.Customer</entityClass>
-    <entityClass>vrp.model.Vehicle</entityClass>
+    <entityClass>vrp.model.Task</entityClass>
 
     <scoreDirectorFactory>
         <easyScoreCalculatorClass>vrp.model.VrpScoreCalculator</easyScoreCalculatorClass>
@@ -20,7 +20,7 @@
     </scoreDirectorFactory>
 
     <termination>
-        <minutesSpentLimit>5</minutesSpentLimit>
+        <secondsSpentLimit>1</secondsSpentLimit>
     </termination>
     <constructionHeuristic>
         <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>

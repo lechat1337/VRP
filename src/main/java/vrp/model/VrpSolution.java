@@ -17,8 +17,7 @@ public class VrpSolution {
     @ValueRangeProvider(id = "customerRange")
     public List<Customer> customerList;
 
-    @PlanningEntityCollectionProperty
-    @ValueRangeProvider(id = "vehicleRange")
+
     public List<Vehicle> vehicleList;
 
     @ProblemFactCollectionProperty
@@ -57,7 +56,8 @@ public class VrpSolution {
     public void setCustomerList(List<Customer> customerList) {
         this.customerList = customerList;
     }
-
+    @PlanningEntityCollectionProperty
+    @ValueRangeProvider(id = "vehicleRange")
     public List<Vehicle> getVehicleList() {
         return vehicleList;
     }

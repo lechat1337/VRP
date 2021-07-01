@@ -3,12 +3,10 @@ package vrp.model;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.InverseRelationShadowVariable;
 
-@PlanningEntity
 public class Vehicle implements Task{
     public int id;
     public Depot depot;
     public long capasity;
-    //@InverseRelationShadowVariable(sourceVariableName = "previousTask")
     public Customer nextTask;
 
     public Vehicle(int id, Depot depot, long capasity) {
@@ -67,5 +65,13 @@ public class Vehicle implements Task{
 
     public void setCapasity(long capasity) {
         this.capasity = capasity;
+    }
+
+    @Override
+    public String toString() {
+        return "Vehicle{" +
+                "id=" + id +
+                ", nextTask=" + nextTask +
+                '}';
     }
 }

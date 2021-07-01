@@ -16,11 +16,11 @@ public class VrpScoreCalculator implements EasyScoreCalculator<VrpSolution, Hard
             if(vehicle.nextTask != null){
                 int sumDemand = 0;
                 Customer c = vehicle.nextTask;
-                while(c != null){
+                while(c != null) {
                     sumDemand += c.demand;
                     c = c.nextTask;
                 }
-                hard += -Math.min(0, sumDemand - vehicle.capasity);
+                hard -= (sumDemand > vehicle.capasity) ? sumDemand - vehicle.capasity : 0;
             }
         }
 
@@ -28,16 +28,17 @@ public class VrpScoreCalculator implements EasyScoreCalculator<VrpSolution, Hard
             if(vehicle.nextTask != null){
                 BigDecimal tripDist = BigDecimal.ZERO;
                 Customer c = vehicle.nextTask;
-                do{
+                while(c.nextTask != null){
                     tripDist = tripDist.add(c.distToPrevious());
                     c = c.nextTask;
-                }while(c != null);
+                }
+                tripDist = tripDist.add(c.distToPrevious());
                 soft = soft.add(tripDist);
                 soft = soft.add(c.distToDepot());
             }
         }
 
-
+        soft = soft.negate();
 
         return HardSoftBigDecimalScore.of(BigDecimal.valueOf(hard), soft);
     }
