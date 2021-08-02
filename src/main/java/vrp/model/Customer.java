@@ -14,7 +14,8 @@ public class Customer implements Task{
     public long demand;
     public Location location;
     public Customer nextTask;
-
+    @PlanningVariable(graphType = PlanningVariableGraphType.CHAINED,
+            valueRangeProviderRefs = {"customerRange", "vehicleRange"})
     public Task previousTask;
     public Vehicle vehicle;
 
@@ -72,8 +73,6 @@ public class Customer implements Task{
         this.demand = demand;
     }
 
-    @PlanningVariable(graphType = PlanningVariableGraphType.CHAINED,
-            valueRangeProviderRefs = {"customerRange", "vehicleRange"})
     public Task getPreviousTask() {
         return previousTask;
     }
@@ -91,8 +90,7 @@ public class Customer implements Task{
     }
 
     public String toString(){
-        StringBuilder res = new StringBuilder();
-        res.append(id).append(" x:").append(location.toString());
-        return res.toString();
+        return id + " x:" + location.toString();
     }
+
 }

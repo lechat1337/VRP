@@ -4,13 +4,13 @@
     <!--<environmentMode>FULL_ASSERT</environmentMode>--><!-- To slowly prove there are no bugs in this code -->
     <!--<moveThreadCount>AUTO</moveThreadCount>--><!-- To solve faster by saturating multiple CPU cores -->
 
-    <solutionClass>vrp.model.VrpSolution</solutionClass>
+    <solutionClass>vrp.model.VRPSolution</solutionClass>
     <entityClass>vrp.model.Customer</entityClass>
     <entityClass>vrp.model.Task</entityClass>
 
     <scoreDirectorFactory>
-        <easyScoreCalculatorClass>vrp.model.VrpScoreCalculator</easyScoreCalculatorClass>
-        <!--<constraintProviderClass>org.optaplanner.examples.vehiclerouting.optional.score.VehicleRoutingConstraintProvider</constraintProviderClass>-->
+<!--        <easyScoreCalculatorClass>vrp.model.VRPScoreCalculator</easyScoreCalculatorClass>-->
+        <constraintProviderClass>vrp.model.VRPConstratProvider</constraintProviderClass>
         <!--<incrementalScoreCalculatorClass>org.optaplanner.examples.vehiclerouting.optional.score.VehicleRoutingIncrementalScoreCalculator</incrementalScoreCalculatorClass>-->
 <!--        <scoreDrl>org/optaplanner/examples/vehiclerouting/solver/vehicleRoutingConstraints.drl</scoreDrl>-->
         <!--<assertionScoreDirectorFactory>-->
@@ -19,29 +19,35 @@
         <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
     </scoreDirectorFactory>
 
-    <termination>
-        <secondsSpentLimit>1</secondsSpentLimit>
-    </termination>
+
     <constructionHeuristic>
         <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
     </constructionHeuristic>
     <localSearch>
-<!--        <unionMoveSelector>-->
-<!--            <changeMoveSelector/>-->
-<!--            <swapMoveSelector/>-->
-<!--            <subChainChangeMoveSelector>-->
-<!--                <selectReversingMoveToo>true</selectReversingMoveToo>-->
-<!--            </subChainChangeMoveSelector>-->
-<!--            <subChainSwapMoveSelector>-->
-<!--                <selectReversingMoveToo>true</selectReversingMoveToo>-->
-<!--            </subChainSwapMoveSelector>-->
-<!--            &lt;!&ndash; TODO use nearby selection to scale out &ndash;&gt;-->
-<!--        </unionMoveSelector>-->
+        <termination>
+            <secondsSpentLimit>20</secondsSpentLimit>
+        </termination>
+        <unionMoveSelector>
+            <changeMoveSelector/>
+            <swapMoveSelector/>
+            <subChainChangeMoveSelector>
+                <selectReversingMoveToo>true</selectReversingMoveToo>
+            </subChainChangeMoveSelector>
+            <subChainSwapMoveSelector>
+                <selectReversingMoveToo>true</selectReversingMoveToo>
+            </subChainSwapMoveSelector>
+        </unionMoveSelector>
         <acceptor>
             <lateAcceptanceSize>200</lateAcceptanceSize>
         </acceptor>
         <forager>
             <acceptedCountLimit>1</acceptedCountLimit>
         </forager>
+    </localSearch>
+    <localSearch>
+        <termination>
+            <secondsSpentLimit>20</secondsSpentLimit>
+        </termination>
+        <localSearchType>TABU_SEARCH</localSearchType>
     </localSearch>
 </solver>

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plannerBenchmark xmlns="https://www.optaplanner.org/xsd/benchmark" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://www.optaplanner.org/xsd/benchmark https://www.optaplanner.org/xsd/benchmark/benchmark.xsd">
+    <benchmarkDirectory>local/vrp</benchmarkDirectory>
+
+    <inheritedSolverBenchmark>
+        <solver>
+            <solutionClass>vrp.model.VRPSolution</solutionClass>
+            <entityClass>vrp.model.Customer</entityClass>
+            <entityClass>vrp.model.Task</entityClass>
+            <scoreDirectorFactory>
+                <easyScoreCalculatorClass>vrp.model.VRPScoreCalculator</easyScoreCalculatorClass>
+                <initializingScoreTrend>ONLY_DOWN</initializingScoreTrend>
+            </scoreDirectorFactory>
+
+            <constructionHeuristic>
+                <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+            </constructionHeuristic>
+
+        </solver>
+        <problemBenchmarks>
+            <solutionFileIOClass>vrp.exec.VrpSolutionFileIO</solutionFileIOClass>
+            <writeOutputSolutionEnabled>true</writeOutputSolutionEnabled>
+<!--            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_16_3_1</inputSolutionFile>-->
+<!--            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_21_4_1</inputSolutionFile>-->
+<!--            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_16_5_1</inputSolutionFile>-->
+<!--            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_21_6_1</inputSolutionFile>-->
+
+            <!--            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_26_8_1</inputSolutionFile>-->
+<!--            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_51_5_1</inputSolutionFile>-->
+<!--            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_101_10_1</inputSolutionFile>-->
+            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_200_16_1</inputSolutionFile>
+<!--            <inputSolutionFile>C:/Users/aleksejs/coursera/vrp/data/vrp_421_41_1</inputSolutionFile>-->
+            <problemStatisticType>STEP_SCORE</problemStatisticType>
+
+        </problemBenchmarks>
+    </inheritedSolverBenchmark>
+
+    <solverBenchmark>
+        <name>with_nearby</name>
+        <solver>
+            <localSearch>
+                <termination>
+                    <secondsSpentLimit>90</secondsSpentLimit>
+                </termination>
+                <localSearchType>HILL_CLIMBING</localSearchType>
+                <unionMoveSelector>
+                    <changeMoveSelector/>
+                    <swapMoveSelector/>
+                    <subChainChangeMoveSelector>
+                        <selectReversingMoveToo>true</selectReversingMoveToo>
+                    </subChainChangeMoveSelector>
+                    <subChainSwapMoveSelector>
+                        <selectReversingMoveToo>true</selectReversingMoveToo>
+                    </subChainSwapMoveSelector>
+                </unionMoveSelector>
+            </localSearch>
+<!--            <localSearch>-->
+<!--                <termination>-->
+<!--                    <secondsSpentLimit>120</secondsSpentLimit>-->
+<!--                </termination>-->
+<!--                <unionMoveSelector>-->
+<!--                    <changeMoveSelector/>-->
+<!--                    <swapMoveSelector/>-->
+<!--                    <tailChainSwapMoveSelector/>-->
+<!--                    <subChainChangeMoveSelector>-->
+<!--                        <selectReversingMoveToo>true</selectReversingMoveToo>-->
+<!--                    </subChainChangeMoveSelector>-->
+<!--                    <subChainSwapMoveSelector>-->
+<!--                        <selectReversingMoveToo>true</selectReversingMoveToo>-->
+<!--                    </subChainSwapMoveSelector>-->
+<!--                </unionMoveSelector>-->
+<!--                <acceptor>-->
+<!--                    <entityTabuRatio>0.01</entityTabuRatio>-->
+<!--                </acceptor>-->
+<!--                <forager>-->
+<!--                    <acceptedCountLimit>410</acceptedCountLimit>-->
+<!--                </forager>-->
+<!--            </localSearch>-->
+            <localSearch>
+                <termination>
+                    <secondsSpentLimit>120</secondsSpentLimit>
+                </termination>
+                <unionMoveSelector>
+                    <changeMoveSelector>
+                        <entitySelector id="entitySelector1"/>
+                        <valueSelector>
+                            <nearbySelection>
+                                <originEntitySelector mimicSelectorRef="entitySelector1"/>
+                                <nearbyDistanceMeterClass>vrp.model.CustomerNearbyDistanceMeter</nearbyDistanceMeterClass>
+                                <linearDistributionSizeMaximum>70</linearDistributionSizeMaximum>
+                            </nearbySelection>
+                        </valueSelector>
+                    </changeMoveSelector>
+                    <swapMoveSelector>
+                        <entitySelector id="entitySelector2"/>
+                        <secondaryEntitySelector>
+                            <nearbySelection>
+                                <originEntitySelector mimicSelectorRef="entitySelector2"/>
+                                <nearbyDistanceMeterClass>vrp.model.CustomerNearbyDistanceMeter</nearbyDistanceMeterClass>
+                                <linearDistributionSizeMaximum>70</linearDistributionSizeMaximum>
+                            </nearbySelection>
+                        </secondaryEntitySelector>
+                    </swapMoveSelector>
+                    <tailChainSwapMoveSelector>
+                        <entitySelector id="entitySelector3"/>
+                        <valueSelector>
+                            <nearbySelection>
+                                <originEntitySelector mimicSelectorRef="entitySelector3"/>
+                                <nearbyDistanceMeterClass>vrp.model.CustomerNearbyDistanceMeter</nearbyDistanceMeterClass>
+                                <parabolicDistributionSizeMaximum>70</parabolicDistributionSizeMaximum>
+                            </nearbySelection>
+                        </valueSelector>
+                    </tailChainSwapMoveSelector>
+                    <subChainChangeMoveSelector>
+                        <selectReversingMoveToo>true</selectReversingMoveToo>
+                    </subChainChangeMoveSelector>
+                    <subChainSwapMoveSelector>
+                        <selectReversingMoveToo>true</selectReversingMoveToo>
+                    </subChainSwapMoveSelector>
+                </unionMoveSelector>
+                <acceptor>
+                    <entityTabuRatio>0.0075</entityTabuRatio>
+                </acceptor>
+                <forager>
+                    <acceptedCountLimit>480</acceptedCountLimit>
+                </forager>
+            </localSearch>
+        </solver>
+    </solverBenchmark>
+
+</plannerBenchmark>
+
+

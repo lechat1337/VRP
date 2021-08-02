@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @PlanningSolution
-public class VrpSolution {
+public class VRPSolution {
 
     @PlanningEntityCollectionProperty
     @ValueRangeProvider(id = "customerRange")
@@ -30,13 +30,13 @@ public class VrpSolution {
 
 
 
-    public VrpSolution(){
+    public VRPSolution(){
         this.customerList = new ArrayList<Customer>();
         this.vehicleList = new ArrayList<Vehicle>();
         this.locationList = new ArrayList<Location>();
     }
 
-    public VrpSolution(List<Customer> customerList, List<Vehicle> vehicleList, Depot depot){
+    public VRPSolution(List<Customer> customerList, List<Vehicle> vehicleList, Depot depot){
         this.customerList = customerList;
         this.vehicleList = vehicleList;
         this.depot = depot;

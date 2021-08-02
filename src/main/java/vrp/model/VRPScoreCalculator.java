@@ -5,10 +5,10 @@ import org.optaplanner.core.api.score.calculator.EasyScoreCalculator;
 
 import java.math.BigDecimal;
 
-public class VrpScoreCalculator implements EasyScoreCalculator<VrpSolution, HardSoftBigDecimalScore> {
+public class VRPScoreCalculator implements EasyScoreCalculator<VRPSolution, HardSoftBigDecimalScore> {
 
     @Override
-    public HardSoftBigDecimalScore calculateScore(VrpSolution vrpSolution) {
+    public HardSoftBigDecimalScore calculateScore(VRPSolution vrpSolution) {
         long hard = 0;
         BigDecimal soft = BigDecimal.ZERO;
 

@@ -9,6 +9,7 @@ Point = namedtuple("Point", ['x', 'y'])
 Facility = namedtuple("Facility", ['index', 'setup_cost', 'capacity', 'location'])
 Customer = namedtuple("Customer", ['index', 'demand', 'location'])
 COMMAND = "C:; cd 'C:/Users/aleksejs/coursera/examples/sources'; & 'c:\\Users\\aleksejs\\.vscode\\extensions\\vscjava.vscode-java-debug-0.31.0\\scripts\\launcher.bat' 'C:\\Program Files\\AdoptOpenJDK\\jdk-11.0.10.9-hotspot\\bin\\java.exe' '-Dfile.encoding=UTF-8' '@C:\\Users\\aleksejs\\AppData\\Local\\Temp\\cp_5a9lkk2z92tfn1stlyhv0ojcq.argfile' 'org.optaplanner.examples.vehiclerouting.app.MyCTry'"
+SOLUTIONS = "C:/Users/aleksejs/just_python/vis_data/"
 
 def run(cmd):
     completed = subprocess.run(["powershell", "-Command", cmd], capture_output=True)
@@ -19,9 +20,13 @@ def length(point1, point2):
     return math.sqrt((point1.x - point2.x)**2 + (point1.y - point2.y)**2)
 
 def solve_it(input_data):
-    res = run(COMMAND + " \'" + input_data[7:] + "\'")
-    return res.stdout.decode('utf-8')
-
+    #res = run(COMMAND + " \'" + input_data[7:] + "\'")
+    #return res.stdout.decode('utf-8')
+    #print(input_data[7:])
+    with open(SOLUTIONS + input_data[7:]) as file:
+        res = file.read()
+    return res
+    
 if __name__ == '__main__':
  
  

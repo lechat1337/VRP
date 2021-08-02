@@ -4,13 +4,12 @@ import org.optaplanner.persistence.common.api.domain.solution.SolutionFileIO;
 import vrp.model.*;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-public class VrpSolutionFileIO implements SolutionFileIO<VrpSolution> {
+public class VrpSolutionFileIO implements SolutionFileIO<VRPSolution> {
 
     @Override
     public String getInputFileExtension() {
@@ -18,8 +17,8 @@ public class VrpSolutionFileIO implements SolutionFileIO<VrpSolution> {
     }
 
     @Override
-    public VrpSolution read(File inputSolutionFile) {
-        VrpSolution solution = new VrpSolution();
+    public VRPSolution read(File inputSolutionFile) {
+        VRPSolution solution = new VRPSolution();
         try {
             Scanner sc = new Scanner(inputSolutionFile).useLocale(Locale.US);
             int nCustomers = sc.nextInt();
@@ -39,7 +38,7 @@ public class VrpSolutionFileIO implements SolutionFileIO<VrpSolution> {
                 location = new Location(sc.nextBigDecimal(), sc.nextBigDecimal());
                 customerList.add(new Customer(i, tDemand, location));
             }
-            solution = new VrpSolution(customerList, vehicleList, depot);
+            solution = new VRPSolution(customerList, vehicleList, depot);
             Matrix.setMatrix(solution.getLocationList());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -48,22 +47,24 @@ public class VrpSolutionFileIO implements SolutionFileIO<VrpSolution> {
     }
 
     @Override
-    public void write(VrpSolution vrpSolution, File outputSolutionFile) {
+    public void write(VRPSolution vrpSolution, File outputSolutionFile) {
         StringBuilder solutionStr = new StringBuilder();
+        solutionStr.append(vrpSolution.getScore().getSoftScore().abs()).append(" 0\n");
         for (Vehicle v:
                 vrpSolution.getVehicleList()) {
             if(v.nextTask != null){
                 Customer c = v.nextTask;
-                solutionStr.append(v.id).append("\n");
+                solutionStr.append("0 ");
                 while (c != null){
-                    solutionStr.append(c.id).append("--->");
+                    solutionStr.append(c.id).append(" ");
                     c = c.nextTask;
                 }
-                solutionStr.append("\n");
+                solutionStr.append("0\n");
             }else {
-                solutionStr.append(v.toString()).append(" is not used\n");
+                solutionStr.append("0 0\n");
             }
         }
+        System.out.println(solutionStr.toString());
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(outputSolutionFile.getAbsolutePath(), false));
